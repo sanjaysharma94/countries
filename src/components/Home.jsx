@@ -1,42 +1,65 @@
 
 import axios from "axios";
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useState } from "react";
 
 
 
 export const Home = () =>{
-    const [filter, setFilter] = useState("None")
-    const [search, setSearch] = useState("");
+    
     const [data, setData] = useState([])
-
     const [url , setUrl] = useState("https://restcountries.com/v3/all")
     
     
-     
+
+    // function to make api call
     const makeCall = url =>{
 
         axios.get(url)
         .then((res)=>{
-            console.log(res.data);
             setData(res.data)
         })
-        .catch((e)=>console.log(e.message));
+        .catch((e)=>alert(e.message));
     }
-    
+
+
+
+
+    // useEffect to make api call with url as dependency
     useEffect(()=>{
 
         makeCall(url)
        
     },[url])
+
+
+
+    // search for a country
+    const handleSearch = (e)=>{
+
+        if(e.key==='Enter'){
+            setUrl(`https://restcountries.com/v3/name/${e.target.value}`)
+        }
+
+        
+    }
+
     
+
+
     
+    // filter function 
     const handleChange = (e)=>{
             if(e.target.value ==="None") setUrl("https://restcountries.com/v3/all");
             else setUrl(`https://restcountries.com/v3/region/${e.target.value}`) ;        
     }
 
-    const render = () =><div id="main-div">
-    {data.map((el)=><div className="per-Div" >
+
+
+
+        //  Appending countries from Response  using map function 
+    const render = () =>
+    <div id="main-div">
+            {data.map((el)=><div className="per-Div" >
             <img className="perImage" src={el.flags[1]} alt="country" />
             <h4  className="last-Div1">{el.name.common}</h4>
             <div className="last-Div">
@@ -44,16 +67,19 @@ export const Home = () =>{
             <p className="highlight">Region : </p><span>{el.region}</span> <br />
             <p className="highlight">Capital : </p><span>{el.capital}</span>
             </div>
-        </div>
-    )}
+            </div>
+            )}
 </div>
+
+    // Elements Returning  from Home components .
     return(<div id="container">
 
         <div id="search-filter">
-        {/* <input type="text" placeholder="search for a country" />  */}
-        <input type="text" placeholder="&#xF002; Search for a country" style={{fontFamily:"Arial"+ "FontAwesome"}} />
-        <select onChange={handleChange}>
-            <option value="None">Filter by Region</option>
+
+         <input type="text" onKeyPress={handleSearch} placeholder= 'Search for a Country' /> {/* input box for search */}
+
+            <select onChange={handleChange}>
+            <option value="None">Filter by Region</option>  {/*  select tag for filter options  for search */}
             <option value="Asia">Asia</option>
             <option value="Africa">Africa</option>
             <option value="Oceania">Oceania</option>
