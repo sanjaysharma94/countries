@@ -1,6 +1,7 @@
 
 import axios from "axios";
 import { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom"
 
 
 
@@ -8,7 +9,7 @@ export const Home = () =>{
     
     const [data, setData] = useState([])
     const [url , setUrl] = useState("https://restcountries.com/v3/all")
-    
+    const Navigate  = useNavigate();
     
 
     // function to make api call
@@ -43,9 +44,7 @@ export const Home = () =>{
         
     }
 
-    
-
-
+   
     
     // filter function 
     const handleChange = (e)=>{
@@ -59,7 +58,7 @@ export const Home = () =>{
         //  Appending countries from Response  using map function 
     const render = () =>
     <div id="main-div">
-            {data.map((el)=><div className="per-Div" >
+            {data.map((el)=><div onClick={()=>Navigate(`/details/${el.name.official}`)} className="per-Div" >
             <img className="perImage" src={el.flags[1]} alt="country" />
             <h4  className="last-Div1">{el.name.common}</h4>
             <div className="last-Div">
@@ -70,6 +69,8 @@ export const Home = () =>{
             </div>
             )}
 </div>
+
+
 
     // Elements Returning  from Home components .
     return(<div id="container">
