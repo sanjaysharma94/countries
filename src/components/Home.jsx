@@ -2,6 +2,7 @@
 import axios from "axios";
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom"
+import uuid from 'react-uuid';
 
 
 
@@ -58,7 +59,7 @@ export const Home = () =>{
         //  Appending countries from Response  using map function 
     const render = () =>
     <div id="main-div">
-            {data.map((el)=><div onClick={()=>Navigate(`/details/${el.name.official}`)} className="per-Div" >
+            {data.map((el)=><div key={uuid()} onClick={()=>Navigate(`/details/${el.name.official}`)} className="per-Div" >
             <img className="perImage" src={el.flags[1]} alt="country" />
             <h4  className="last-Div1">{el.name.common}</h4>
             <div className="last-Div">
