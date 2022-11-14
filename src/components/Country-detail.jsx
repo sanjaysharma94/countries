@@ -1,4 +1,4 @@
-import { Navigate, useParams } from "react-router-dom";
+import {  useParams } from "react-router-dom";
 import { useEffect, useState } from "react";
 import axios from "axios";
 import uuid from 'react-uuid';
@@ -21,7 +21,7 @@ export const Details = () =>{
     .catch((e)=>console.log(e.message));
 
 
-},[])
+},[name])
 
 
 
@@ -38,7 +38,7 @@ export const Details = () =>{
    <h5 style={{marginLeft:"120px"}} className="highlight" >Top Level Domain : </h5><span>{el.tld[0]}</span>  <br/>
    <h5 className="highlight" >Native Name : </h5><span>{el.name.common}</span> 
    <h5 style={{marginLeft:"120px"}} className="highlight" >Languages : </h5>
-    { Object.values(el.languages).map(e=><span style={{marginLeft:"3px"}}>{e}</span>)}  <br/>
+    { Object.values(el.languages).map(e=><span key={e} style={{marginLeft:"3px"}}>{e}</span>)}  <br/>
    <h5 className="highlight">Region : </h5><span>{el.region}</span> <br/> 
    <h5 className="highlight">Sub Region : </h5><span>{el.subregion}</span> <br/>
    <h5 className="highlight">Capital : </h5><span>{el.capital}</span> <br />
